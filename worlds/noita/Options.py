@@ -77,6 +77,14 @@ class VictoryCondition(Choice):
     default = 0
 
 
+class HintAmount(Range):
+    """Choose how many hints are placed on emerald tablets in your game"""
+    display_name = "Hint Amount"
+    range_start = 0
+    range_end = 26
+    default = 13
+
+
 noita_options: Dict[str, type(Option)] = {
     "death_link": DeathLink,
     "bad_effects": Traps,
@@ -86,4 +94,5 @@ noita_options: Dict[str, type(Option)] = {
     "pedestal_checks": PedestalChecks,
     "orbs_as_checks": OrbsAsChecks,
     "bosses_as_checks": BossesAsChecks,
+    "hint_amount": HintAmount
 }
