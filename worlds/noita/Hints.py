@@ -1,5 +1,6 @@
 from BaseClasses import MultiWorld
 from .Options import BossesAsChecks, OrbsAsChecks, VictoryCondition
+from random import shuffle
 
 # heavily inspired by and stolen from Vi's implementation for The Witness
 
@@ -84,7 +85,39 @@ joke_hints = [
     "joke hint sample 2",
     "joke 3",
     "jok3 4",
-    "joke 5"
+    "joke 5",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
+    "joke hint sample",
+    "joke hint sample 2",
+    "joke 3",
+    "jok3 4",
 ]
 
 
@@ -96,11 +129,11 @@ def make_hint_from_item(multiworld: MultiWorld, player: int, item: str):
     else:
         location_name += " of your world"
 
-    return location_name, item, location_obj.address if (location_obj.player == player) else -1
+    return location_name, item
 
 
 def make_hint_from_location(multiworld: MultiWorld, player: int, location: str):
-    location_obj = multiworld.get_location(location, player)
+    # location_obj = multiworld.get_location(location, player)
     item_obj = multiworld.get_location(location, player).item
     item_name = item_obj.name
     if item_obj.player != player:
@@ -108,7 +141,7 @@ def make_hint_from_location(multiworld: MultiWorld, player: int, location: str):
     else:
         item_name = "your " + item_name
 
-    return location, item_name, location_obj.address if (location_obj.player == player) else -1
+    return location, item_name
 
 
 def get_loc_in_this_world(multiworld: MultiWorld, player: int):
@@ -141,27 +174,26 @@ def make_hint_pairs(multiworld: MultiWorld, player: int, hint_locations: list, h
 
     for location in location_hints:
         hint_pair = make_hint_from_location(multiworld, player, location)
-        hint_pairs[hint_pair[0]] = (hint_pair[1], False, hint_pair[2])
+        hint_pairs[hint_pair[0]] = (hint_pair[1], False)
 
     for item in item_hints:
         hint_pair = make_hint_from_item(multiworld, player, item)
-        hint_pairs[hint_pair[0]] = (hint_pair[1], True, hint_pair[2])
+        hint_pairs[hint_pair[0]] = (hint_pair[1], True)
 
     return hint_pairs
 
 
 def make_hint_text(item: tuple, location: str):
     if item[1]:
-        return f"Your {item[0]} is being held by the {location}.", item[2]
+        return f"Your {item[0]} is being held by the {location}."
     else:
-        return f"The {location} of your world holds {item[0]}.", item[2]
+        return f"The {location} of your world holds {item[0]}."
 
 
 def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
     hints = list()
 
     loc_in_this_world = get_loc_in_this_world(multiworld, player)
-    prog_items_in_this_world = get_prog_items_in_this_world(multiworld, player)
 
     always_pairs = make_hint_pairs(multiworld, player, get_always_hint_locations(multiworld, player),
                                    get_always_hint_items(multiworld, player))
@@ -173,15 +205,19 @@ def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
 
     multiworld.per_slot_randoms[player].shuffle(hints)
 
-    next_random_hint_is_item = multiworld.per_slot_randoms[player].randint(0, 2)
-
     locations_in_this_world = sorted(list(loc_in_this_world))
-    prog_items_in_this_world = sorted(list(prog_items_in_this_world))
 
     multiworld.per_slot_randoms[player].shuffle(locations_in_this_world)
-    multiworld.per_slot_randoms[player].shuffle(prog_items_in_this_world)
+
+    if hint_amount < 13:
+        # if you have less than 13 hints set, add some joke hints and then up the hint_amount so the while works
+        hints.extend(generate_joke_hints(multiworld, player, 13 - hint_amount))
+        hint_amount = 13
 
     while len(hints) < hint_amount:
+        if len(hints) == 13:
+            # we want the unforged tablets to have the good hints, but not necessarily starting with our items
+            shuffle(hints)
         if useful_pairs:
             loc = multiworld.per_slot_randoms[player].choice(list(useful_pairs.keys()))
             item = useful_pairs[loc]
@@ -190,24 +226,29 @@ def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
             hints.append(make_hint_text(item, loc))
             continue
 
-        if next_random_hint_is_item:
-            if not prog_items_in_this_world:
-                next_random_hint_is_item = not next_random_hint_is_item
-                continue
+        if len(locations_in_this_world) == 0:
+            hints.extend(generate_joke_hints(multiworld, player, hint_amount - len(hints)))
+            continue
 
-            hint = make_hint_from_item(multiworld, player, prog_items_in_this_world.pop())
-            hints.append((f"Your {hint[1]} is being held by the {hint[0]}.", hint[2]))
-        else:
-            hint = make_hint_from_location(multiworld, player, locations_in_this_world.pop())
-            hints.append((f"Your {hint[0]} holds {hint[1]}.", hint[2]))
+        location = locations_in_this_world.pop()
+        item = multiworld.get_location(location, player).item
+        if item.advancement and item.player != player:
+            hint = make_hint_from_location(multiworld, player, location)
+            hints.append(f"Your {hint[0]} holds {hint[1]}.")
 
-        next_random_hint_is_item = not next_random_hint_is_item
+    if hint_amount == 13:
+        shuffle(hints)
 
-    return hints
+    hints.extend(generate_joke_hints(multiworld, player, 26 - hint_amount))
+    for item in hints:
+        print(item)
+    numbered_hints = dict(zip(range(len(hints)), hints))
+
+    return numbered_hints
 
 
 def generate_joke_hints(multiworld: MultiWorld, player: int, amount: int):
-    return [(x, -1) for x in multiworld.per_slot_randoms[player].sample(joke_hints, amount)]
+    return [x for x in multiworld.per_slot_randoms[player].sample(joke_hints, amount)]
 
 
 def create_all_hints(multiworld: MultiWorld, player: int):
