@@ -13,6 +13,7 @@ class LocationData(NamedTuple):
     id: int
     flag: int = 0
     ltype: Optional[str] = ""
+    pw: bool = True
 
 
 class LocationFlag(IntEnum):
@@ -26,6 +27,7 @@ class LocationFlag(IntEnum):
 # Mapping of items in each region.
 # Only the first Hidden Chest and Pedestal are mapped here, the others are created in Regions.
 # ltype key: "chest" = Hidden Chests, "pedestal" = Pedestals, "boss" = Boss, "orb" = Orb.
+# pw is for locations that spawn in parallel worlds, for use in generating the parallel world location IDs
 # 110000-110649
 location_region_mapping: Dict[str, Dict[str, LocationData]] = {
     "Coal Pits Holy Mountain": {
@@ -77,9 +79,9 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Temple of the Art Holy Mountain Spell Refresh": LocationData(110035),
     },
     "Laboratory Holy Mountain": {
-        "Laboratory Holy Mountain Shop Item 1":   LocationData(110036),
-        "Laboratory Holy Mountain Shop Item 2":   LocationData(110037),
-        "Laboratory Holy Mountain Shop Item 3":   LocationData(110038),
+        "Laboratory Holy Mountain Shop Item 1":   LocationData(110036, False),
+        "Laboratory Holy Mountain Shop Item 2":   LocationData(110037, False),
+        "Laboratory Holy Mountain Shop Item 3":   LocationData(110038, False),
         "Laboratory Holy Mountain Shop Item 4":   LocationData(110039),
         "Laboratory Holy Mountain Shop Item 5":   LocationData(110040),
         "Laboratory Holy Mountain Spell Refresh": LocationData(110041),
