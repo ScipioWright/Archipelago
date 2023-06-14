@@ -82,21 +82,21 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Laboratory Holy Mountain Shop Item 1":   LocationData(110036, False),
         "Laboratory Holy Mountain Shop Item 2":   LocationData(110037, False),
         "Laboratory Holy Mountain Shop Item 3":   LocationData(110038, False),
-        "Laboratory Holy Mountain Shop Item 4":   LocationData(110039),
-        "Laboratory Holy Mountain Shop Item 5":   LocationData(110040),
-        "Laboratory Holy Mountain Spell Refresh": LocationData(110041),
+        "Laboratory Holy Mountain Shop Item 4":   LocationData(110039, False),
+        "Laboratory Holy Mountain Shop Item 5":   LocationData(110040, False),
+        "Laboratory Holy Mountain Spell Refresh": LocationData(110041, False),
     },
     "Secret Shop": {
-        "Secret Shop Item 1": LocationData(110042),
-        "Secret Shop Item 2": LocationData(110043),
-        "Secret Shop Item 3": LocationData(110044),
-        "Secret Shop Item 4": LocationData(110045),
+        "Secret Shop Item 1": LocationData(110042, False),
+        "Secret Shop Item 2": LocationData(110043, False),
+        "Secret Shop Item 3": LocationData(110044, False),
+        "Secret Shop Item 4": LocationData(110045, False),
     },
     "Floating Island": {
         "Floating Island Orb": LocationData(110658, LocationFlag.main_path, "orb"),
     },
     "Pyramid": {
-        "Kolmisilmän Koipi": LocationData(110649, LocationFlag.main_world, "boss"),
+        "Kolmisilmän Koipi": LocationData(110649, LocationFlag.main_world, "boss", False),
         "Pyramid Orb":       LocationData(110659, LocationFlag.main_world, "orb"),
         "Sandcave Orb":      LocationData(110662, LocationFlag.main_world, "orb"),
     },
@@ -105,7 +105,7 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Overgrown Cavern Pedestal": LocationData(110546, LocationFlag.main_world, "pedestal"),
     },
     "Lake": {
-        "Syväolento": LocationData(110651, LocationFlag.main_world, "boss"),
+        "Syväolento": LocationData(110651, LocationFlag.main_world, "boss", False),
     },
     "Frozen Vault": {
         "Frozen Vault Orb":      LocationData(110660, LocationFlag.main_world, "orb"),
@@ -129,7 +129,7 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Abyss Orb":        LocationData(110665, LocationFlag.main_path, "orb"),
     },
     "Below Lava Lake": {
-        "Lava Lake Orb": LocationData(110661, LocationFlag.side_path, "orb"),
+        "Lava Lake Orb": LocationData(110661, LocationFlag.side_path, "orb", False),
     },
     "Coal Pits": {
         "Coal Pits Chest":    LocationData(110126, LocationFlag.main_path, "chest"),
@@ -189,10 +189,10 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Snow Chasm Orb": LocationData(110667, LocationFlag.main_world, "orb"),
     },
     "Deep Underground": {
-        "Limatoukka": LocationData(110647, LocationFlag.main_world, "boss"),
+        "Limatoukka": LocationData(110647, LocationFlag.main_world, "boss", False),
     },
     "The Laboratory": {
-        "Kolmisilmä": LocationData(110646, LocationFlag.main_path, "boss"),
+        "Kolmisilmä": LocationData(110646, LocationFlag.main_path, "boss", False),
     },
     "Friend Cave": {
         "Toveri": LocationData(110654, LocationFlag.main_world, "boss"),
@@ -208,6 +208,20 @@ def generate_location_entries(locname: str, locinfo: LocationData) -> Dict[str, 
     if locinfo.ltype in ["chest", "pedestal"]:
         return {f"{locname} {i + 1}": locinfo.id + i for i in range(20)}
     return {locname: locinfo.id}
+
+
+# Creates parallel world locations for locations not marked as non-existing
+def generate_pw_locations(locname: str, locinfo: LocationData) -> Dict[str, int]:
+    pw_locations = {}
+    if locinfo.pw:
+        if locinfo.ltype in ["chest", "pedestal"]:
+            for i in range(10):
+                pw_locations[f"West {locname} {i + 1}"] = locinfo.id + i + 669
+                pw_locations[f"East {locname} {i + 1}"] = locinfo.id + i + 669 * 2
+        else:
+            pw_locations[f"West {locname}"] = locinfo.id + 669
+            pw_locations[f"East {locname}"] = locinfo.id + 669 * 2
+    return pw_locations
 
 
 location_name_to_id: Dict[str, int] = {}
