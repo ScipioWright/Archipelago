@@ -7,7 +7,7 @@ from .Options import BossesAsChecks, VictoryCondition
 
 
 class ItemData(NamedTuple):
-    code: Optional[int]
+    code: int
     group: str
     classification: ItemClassification = ItemClassification.progression
     required_num: int = 0

@@ -120,7 +120,7 @@ noita_connections: Dict[str, Set[str]] = {
                            "Lukki Lair"},
     "Dragoncave": {"Underground Jungle"},
     "Lukki Lair": {"Underground Jungle", "Snow Chasm", "Frozen Vault"},
-    "Snow Chasm": {},
+    # "Snow Chasm": {},
 
     ###
     "Vault Holy Mountain": {"The Vault"},
@@ -133,14 +133,14 @@ noita_connections: Dict[str, Set[str]] = {
     "Wizards' Den": {"Temple of the Art", "Powerplant"},
     "Powerplant": {"Wizards' Den", "Deep Underground"},
     "The Tower": {"Forest"},
-    "Deep Underground": {},
+    # "Deep Underground": {},
 
     ###
     "Laboratory Holy Mountain": {"The Laboratory"},
     "The Laboratory": {"Laboratory Holy Mountain", "The Work", "Friend Cave", "The Work (Hell)", "Lake"},
-    "Friend Cave": {},
-    "The Work": {},
-    "The Work (Hell)": {},
+    # "Friend Cave": {},
+    # "The Work": {},
+    # "The Work (Hell)": {},
     ###
 }
 

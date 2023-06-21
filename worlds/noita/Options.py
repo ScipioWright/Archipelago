@@ -1,5 +1,5 @@
 from typing import Dict
-from Options import Choice, DeathLink, DefaultOnToggle, Option, Range
+from Options import AssembleOptions, Choice, DeathLink, DefaultOnToggle, Range
 
 
 class PathOption(Choice):
@@ -85,7 +85,7 @@ class HintAmount(Range):
     default = 13
 
 
-noita_options: Dict[str, type(Option)] = {
+noita_options: Dict[str, AssembleOptions] = {
     "death_link": DeathLink,
     "bad_effects": Traps,
     "victory_condition": VictoryCondition,
