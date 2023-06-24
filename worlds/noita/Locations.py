@@ -228,3 +228,4 @@ location_name_to_id: Dict[str, int] = {}
 for location_group in location_region_mapping.values():
     for locname, locinfo in location_group.items():
         location_name_to_id.update(generate_location_entries(locname, locinfo))
+        location_name_to_id.update(generate_pw_locations(locname, locinfo))

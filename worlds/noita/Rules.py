@@ -46,8 +46,8 @@ wand_tiers: List[str] = [
 
 
 items_hidden_from_shops: List[str] = ["Gold (200)", "Gold (1000)", "Potion", "Random Potion", "Secret Potion",
-                                     "Chaos Die", "Greed Die", "Kammi", "Refreshing Gourd", "Sädekivi", "Broken Wand",
-                                     "Powder Pouch"]
+                                      "Chaos Die", "Greed Die", "Kammi", "Refreshing Gourd", "Sädekivi", "Broken Wand",
+                                      "Powder Pouch"]
 
 
 perk_list: List[str] = list(filter(Items.item_is_perk, Items.item_table.keys()))

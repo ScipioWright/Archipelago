@@ -12,6 +12,7 @@ class PathOption(Choice):
     option_main_path = 1
     option_side_path = 2
     option_main_world = 3
+    option_parallel_worlds = 4
     default = 1
 
 
@@ -46,6 +47,7 @@ class OrbsAsChecks(Choice):
     option_main_path = 1
     option_side_path = 2
     option_main_world = 3
+    option_parallel_worlds = 4
     default = 0
 
 

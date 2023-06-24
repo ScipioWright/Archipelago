@@ -36,9 +36,10 @@ class NoitaWorld(World):
 
     # Returned items will be sent over to the client
     def fill_slot_data(self):
-        hints = Hints.create_all_hints(self.multiworld, self.player)
-        return {name: getattr(self.multiworld, name)[self.player].value for name in self.option_definitions},\
-            {"hints": hints}
+        # hints = Hints.create_all_hints(self.multiworld, self.player)
+        # return {name: getattr(self.multiworld, name)[self.player].value for name in self.option_definitions},\
+        #     {"hints": hints}
+        return {name: getattr(self.multiworld, name)[self.player].value for name in self.option_definitions}
 
     def create_regions(self) -> None:
         Regions.create_all_regions_and_connections(self.multiworld, self.player)
