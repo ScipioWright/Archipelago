@@ -1,9 +1,9 @@
 import itertools
 from collections import Counter
-from typing import Dict, List, NamedTuple, Optional, Set
+from typing import Dict, List, NamedTuple, Set
 
 from BaseClasses import Item, ItemClassification, MultiWorld
-from .Options import BossesAsChecks, VictoryCondition
+from .Options import BossesAsChecks, PathOption, VictoryCondition
 
 
 class ItemData(NamedTuple):
@@ -44,6 +44,10 @@ def create_kantele(victory_condition: VictoryCondition) -> List[str]:
     return ["Kantele"] if victory_condition.value >= VictoryCondition.option_pure_ending else []
 
 
+def create_pw_wand(path_option: PathOption) -> List[str]:
+    return["Parallel World Wand"] if path_option.value >= PathOption.option_parallel_worlds else []
+
+
 def create_random_items(multiworld: MultiWorld, player: int, random_count: int) -> List[str]:
     filler_pool = filler_weights.copy()
     if multiworld.bad_effects[player].value == 0:
@@ -64,6 +68,7 @@ def create_all_items(multiworld: MultiWorld, player: int) -> None:
         + create_orb_items(multiworld.victory_condition[player])
         + create_spatial_awareness_item(multiworld.bosses_as_checks[player])
         + create_kantele(multiworld.victory_condition[player])
+        + create_pw_wand(multiworld.path_option[player])
     )
 
     random_count = sum_locations - len(itempool)
@@ -106,7 +111,7 @@ item_table: Dict[str, ItemData] = {
     "Refreshing Gourd":                     ItemData(110029, "Items", ItemClassification.filler),
     "Sädekivi":                             ItemData(110030, "Items", ItemClassification.filler),
     "Broken Wand":                          ItemData(110031, "Items", ItemClassification.filler),
-
+    "Parallel World Wand":                  ItemData(110032, "Wands", ItemClassification.progression)
 }
 
 filler_weights: Dict[str, int] = {

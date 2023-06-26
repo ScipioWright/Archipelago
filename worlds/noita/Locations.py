@@ -1,6 +1,7 @@
 # Locations are specific points that you would obtain an item at.
 from enum import IntEnum
 from typing import Dict, NamedTuple, Optional
+from copy import deepcopy
 
 from BaseClasses import Location
 
@@ -31,66 +32,66 @@ class LocationFlag(IntEnum):
 # 110000-110649
 location_region_mapping: Dict[str, Dict[str, LocationData]] = {
     "Coal Pits Holy Mountain": {
-        "Coal Pits Holy Mountain Shop Item 1":   LocationData(110000),
-        "Coal Pits Holy Mountain Shop Item 2":   LocationData(110001),
-        "Coal Pits Holy Mountain Shop Item 3":   LocationData(110002),
-        "Coal Pits Holy Mountain Shop Item 4":   LocationData(110003),
-        "Coal Pits Holy Mountain Shop Item 5":   LocationData(110004),
-        "Coal Pits Holy Mountain Spell Refresh": LocationData(110005),
+        "Coal Pits Holy Mountain Shop Item 1":   LocationData(110000, LocationFlag.main_path, "shop"),
+        "Coal Pits Holy Mountain Shop Item 2":   LocationData(110001, LocationFlag.main_path, "shop"),
+        "Coal Pits Holy Mountain Shop Item 3":   LocationData(110002, LocationFlag.main_path, "shop"),
+        "Coal Pits Holy Mountain Shop Item 4":   LocationData(110003, LocationFlag.main_path, "shop"),
+        "Coal Pits Holy Mountain Shop Item 5":   LocationData(110004, LocationFlag.main_path, "shop"),
+        "Coal Pits Holy Mountain Spell Refresh": LocationData(110005, LocationFlag.main_path, "shop"),
     },
     "Snowy Depths Holy Mountain": {
-        "Snowy Depths Holy Mountain Shop Item 1":   LocationData(110006),
-        "Snowy Depths Holy Mountain Shop Item 2":   LocationData(110007),
-        "Snowy Depths Holy Mountain Shop Item 3":   LocationData(110008),
-        "Snowy Depths Holy Mountain Shop Item 4":   LocationData(110009),
-        "Snowy Depths Holy Mountain Shop Item 5":   LocationData(110010),
-        "Snowy Depths Holy Mountain Spell Refresh": LocationData(110011),
+        "Snowy Depths Holy Mountain Shop Item 1":   LocationData(110006, LocationFlag.main_path, "shop"),
+        "Snowy Depths Holy Mountain Shop Item 2":   LocationData(110007, LocationFlag.main_path, "shop"),
+        "Snowy Depths Holy Mountain Shop Item 3":   LocationData(110008, LocationFlag.main_path, "shop"),
+        "Snowy Depths Holy Mountain Shop Item 4":   LocationData(110009, LocationFlag.main_path, "shop"),
+        "Snowy Depths Holy Mountain Shop Item 5":   LocationData(110010, LocationFlag.main_path, "shop"),
+        "Snowy Depths Holy Mountain Spell Refresh": LocationData(110011, LocationFlag.main_path, "shop"),
     },
     "Hiisi Base Holy Mountain": {
-        "Hiisi Base Holy Mountain Shop Item 1":   LocationData(110012),
-        "Hiisi Base Holy Mountain Shop Item 2":   LocationData(110013),
-        "Hiisi Base Holy Mountain Shop Item 3":   LocationData(110014),
-        "Hiisi Base Holy Mountain Shop Item 4":   LocationData(110015),
-        "Hiisi Base Holy Mountain Shop Item 5":   LocationData(110016),
-        "Hiisi Base Holy Mountain Spell Refresh": LocationData(110017),
+        "Hiisi Base Holy Mountain Shop Item 1":   LocationData(110012, LocationFlag.main_path, "shop"),
+        "Hiisi Base Holy Mountain Shop Item 2":   LocationData(110013, LocationFlag.main_path, "shop"),
+        "Hiisi Base Holy Mountain Shop Item 3":   LocationData(110014, LocationFlag.main_path, "shop"),
+        "Hiisi Base Holy Mountain Shop Item 4":   LocationData(110015, LocationFlag.main_path, "shop"),
+        "Hiisi Base Holy Mountain Shop Item 5":   LocationData(110016, LocationFlag.main_path, "shop"),
+        "Hiisi Base Holy Mountain Spell Refresh": LocationData(110017, LocationFlag.main_path, "shop"),
     },
     "Underground Jungle Holy Mountain": {
-        "Underground Jungle Holy Mountain Shop Item 1":   LocationData(110018),
-        "Underground Jungle Holy Mountain Shop Item 2":   LocationData(110019),
-        "Underground Jungle Holy Mountain Shop Item 3":   LocationData(110020),
-        "Underground Jungle Holy Mountain Shop Item 4":   LocationData(110021),
-        "Underground Jungle Holy Mountain Shop Item 5":   LocationData(110022),
-        "Underground Jungle Holy Mountain Spell Refresh": LocationData(110023),
+        "Underground Jungle Holy Mountain Shop Item 1":   LocationData(110018, LocationFlag.main_path, "shop"),
+        "Underground Jungle Holy Mountain Shop Item 2":   LocationData(110019, LocationFlag.main_path, "shop"),
+        "Underground Jungle Holy Mountain Shop Item 3":   LocationData(110020, LocationFlag.main_path, "shop"),
+        "Underground Jungle Holy Mountain Shop Item 4":   LocationData(110021, LocationFlag.main_path, "shop"),
+        "Underground Jungle Holy Mountain Shop Item 5":   LocationData(110022, LocationFlag.main_path, "shop"),
+        "Underground Jungle Holy Mountain Spell Refresh": LocationData(110023, LocationFlag.main_path, "shop"),
     },
     "Vault Holy Mountain": {
-        "Vault Holy Mountain Shop Item 1":   LocationData(110024),
-        "Vault Holy Mountain Shop Item 2":   LocationData(110025),
-        "Vault Holy Mountain Shop Item 3":   LocationData(110026),
-        "Vault Holy Mountain Shop Item 4":   LocationData(110027),
-        "Vault Holy Mountain Shop Item 5":   LocationData(110028),
-        "Vault Holy Mountain Spell Refresh": LocationData(110029),
+        "Vault Holy Mountain Shop Item 1":   LocationData(110024, LocationFlag.main_path, "shop"),
+        "Vault Holy Mountain Shop Item 2":   LocationData(110025, LocationFlag.main_path, "shop"),
+        "Vault Holy Mountain Shop Item 3":   LocationData(110026, LocationFlag.main_path, "shop"),
+        "Vault Holy Mountain Shop Item 4":   LocationData(110027, LocationFlag.main_path, "shop"),
+        "Vault Holy Mountain Shop Item 5":   LocationData(110028, LocationFlag.main_path, "shop"),
+        "Vault Holy Mountain Spell Refresh": LocationData(110029, LocationFlag.main_path, "shop"),
     },
     "Temple of the Art Holy Mountain": {
-        "Temple of the Art Holy Mountain Shop Item 1":   LocationData(110030),
-        "Temple of the Art Holy Mountain Shop Item 2":   LocationData(110031),
-        "Temple of the Art Holy Mountain Shop Item 3":   LocationData(110032),
-        "Temple of the Art Holy Mountain Shop Item 4":   LocationData(110033),
-        "Temple of the Art Holy Mountain Shop Item 5":   LocationData(110034),
-        "Temple of the Art Holy Mountain Spell Refresh": LocationData(110035),
+        "Temple of the Art Holy Mountain Shop Item 1":   LocationData(110030, LocationFlag.main_path, "shop"),
+        "Temple of the Art Holy Mountain Shop Item 2":   LocationData(110031, LocationFlag.main_path, "shop"),
+        "Temple of the Art Holy Mountain Shop Item 3":   LocationData(110032, LocationFlag.main_path, "shop"),
+        "Temple of the Art Holy Mountain Shop Item 4":   LocationData(110033, LocationFlag.main_path, "shop"),
+        "Temple of the Art Holy Mountain Shop Item 5":   LocationData(110034, LocationFlag.main_path, "shop"),
+        "Temple of the Art Holy Mountain Spell Refresh": LocationData(110035, LocationFlag.main_path, "shop"),
     },
     "Laboratory Holy Mountain": {
-        "Laboratory Holy Mountain Shop Item 1":   LocationData(110036, False),
-        "Laboratory Holy Mountain Shop Item 2":   LocationData(110037, False),
-        "Laboratory Holy Mountain Shop Item 3":   LocationData(110038, False),
-        "Laboratory Holy Mountain Shop Item 4":   LocationData(110039, False),
-        "Laboratory Holy Mountain Shop Item 5":   LocationData(110040, False),
-        "Laboratory Holy Mountain Spell Refresh": LocationData(110041, False),
+        "Laboratory Holy Mountain Shop Item 1":   LocationData(110036, LocationFlag.main_path, "shop", pw=False),
+        "Laboratory Holy Mountain Shop Item 2":   LocationData(110037, LocationFlag.main_path, "shop", pw=False),
+        "Laboratory Holy Mountain Shop Item 3":   LocationData(110038, LocationFlag.main_path, "shop", pw=False),
+        "Laboratory Holy Mountain Shop Item 4":   LocationData(110039, LocationFlag.main_path, "shop", pw=False),
+        "Laboratory Holy Mountain Shop Item 5":   LocationData(110040, LocationFlag.main_path, "shop", pw=False),
+        "Laboratory Holy Mountain Spell Refresh": LocationData(110041, LocationFlag.main_path, "shop", pw=False),
     },
     "Secret Shop": {
-        "Secret Shop Item 1": LocationData(110042, False),
-        "Secret Shop Item 2": LocationData(110043, False),
-        "Secret Shop Item 3": LocationData(110044, False),
-        "Secret Shop Item 4": LocationData(110045, False),
+        "Secret Shop Item 1": LocationData(110042, LocationFlag.main_path, "shop", pw=False),
+        "Secret Shop Item 2": LocationData(110043, LocationFlag.main_path, "shop", pw=False),
+        "Secret Shop Item 3": LocationData(110044, LocationFlag.main_path, "shop", pw=False),
+        "Secret Shop Item 4": LocationData(110045, LocationFlag.main_path, "shop", pw=False),
     },
     "Floating Island": {
         "Floating Island Orb": LocationData(110658, LocationFlag.main_path, "orb"),
@@ -210,22 +211,40 @@ def generate_location_entries(locname: str, locinfo: LocationData) -> Dict[str, 
     return {locname: locinfo.id}
 
 
+# TODO: PW locations get placed in their main-world regions
 # Creates parallel world locations for locations not marked as non-existing
-def generate_pw_locations(locname: str, locinfo: LocationData) -> Dict[str, int]:
-    pw_locations = {}
-    if locinfo.pw:
-        if locinfo.ltype in ["chest", "pedestal"]:
-            for i in range(10):
-                pw_locations[f"West {locname} {i + 1}"] = locinfo.id + i + 669
-                pw_locations[f"East {locname} {i + 1}"] = locinfo.id + i + 669 * 2
-        else:
-            pw_locations[f"West {locname}"] = locinfo.id + 669
-            pw_locations[f"East {locname}"] = locinfo.id + 669 * 2
-    return pw_locations
+# def generate_pw_locations(locname: str, locinfo: LocationData) -> Dict[str, int]:
+#     pw_locations = {}
+#     if locinfo.pw:
+#         if locinfo.ltype in ["chest", "pedestal"]:
+#             for i in range(10):
+#                 pw_locations[f"West {locname} {i + 1}"] = locinfo.id + i + 669
+#                 pw_locations[f"East {locname} {i + 1}"] = locinfo.id + i + 669 * 2
+#         else:
+#             pw_locations[f"West {locname}"] = locinfo.id + 669
+#             pw_locations[f"East {locname}"] = locinfo.id + 669 * 2
+#
+#     return pw_locations
+
+
+full_location_region_mapping = deepcopy(location_region_mapping)
+for region_name, location_group in location_region_mapping.items():
+    wregion_name = f"West {region_name}"
+    eregion_name = f"East {region_name}"
+    wlocation_group = {}
+    elocation_group = {}
+    for location_name, location_data in location_group.items():
+        if location_data.pw:
+            wlocation_data = location_data._replace(id=location_data.id + 669, flag=LocationFlag.parallel_worlds)
+            elocation_data = location_data._replace(id=location_data.id + 669 * 2, flag=LocationFlag.parallel_worlds)
+            wlocation_group[f"West {location_name}"] = wlocation_data
+            elocation_group[f"East {location_name}"] = elocation_data
+    full_location_region_mapping[wregion_name] = wlocation_group
+    full_location_region_mapping[eregion_name] = elocation_group
 
 
 location_name_to_id: Dict[str, int] = {}
-for location_group in location_region_mapping.values():
+for location_group in full_location_region_mapping.values():
     for locname, locinfo in location_group.items():
         location_name_to_id.update(generate_location_entries(locname, locinfo))
-        location_name_to_id.update(generate_pw_locations(locname, locinfo))
+        # location_name_to_id.update(generate_pw_locations(locname, locinfo))

@@ -6,7 +6,9 @@ class PathOption(Choice):
     """Choose where you would like Hidden Chest and Pedestal checks to be placed.
     Main Path includes the main 7 biomes you typically go through to get to the final boss.
     Side Path includes the Lukki Lair and Fungal Caverns. 9 biomes total.
-    Main World includes the full world (excluding parallel worlds). 14 biomes total.
+    Main World includes the full main world. 14 biomes total.
+    Parallel Worlds includes both parallel worlds as well as the main world. 42 biomes total.
+    Do not choose the parallel worlds option unless you know what you're getting into.
     Note: The Collapsed Mines have been combined into the Mines as the biome is tiny."""
     display_name = "Path Option"
     option_main_path = 1
@@ -17,7 +19,8 @@ class PathOption(Choice):
 
 
 class HiddenChests(Range):
-    """Number of hidden chest checks added to the applicable biomes."""
+    """Number of hidden chest checks added to the applicable biomes.
+    If you choose the parallel worlds path option, you cannot choose more than 10."""
     display_name = "Hidden Chests per Biome"
     range_start = 0
     range_end = 20
@@ -25,7 +28,8 @@ class HiddenChests(Range):
 
 
 class PedestalChecks(Range):
-    """Number of checks that will spawn on pedestals in the applicable biomes."""
+    """Number of checks that will spawn on pedestals in the applicable biomes.
+    If you choose the parallel worlds path option, you cannot choose more than 10."""
     display_name = "Pedestal Checks per Biome"
     range_start = 0
     range_end = 20
@@ -41,7 +45,8 @@ class OrbsAsChecks(Choice):
     """Decides whether finding the orbs that naturally spawn in the world count as checks.
     The Main Path option includes only the Floating Island and Abyss Orb Room orbs.
     The Side Path option includes the Main Path, Magical Temple, Lukki Lair, and Lava Lake orbs.
-    The Main World option includes all 11 orbs."""
+    The Main World option includes all 11 orbs.
+    The Parallel Worlds option includes every main world and every parallel world orb. 31 orbs total."""
     display_name = "Orbs as Location Checks"
     option_no_orbs = 0
     option_main_path = 1
@@ -68,9 +73,9 @@ class BossesAsChecks(Choice):
 # The sampo is required for every ending (having orbs and bringing the sampo to a different spot changes the ending).
 class VictoryCondition(Choice):
     """Greed is to get to the bottom, beat the boss, and win the game.
-    Pure is to get the 11 orbs in the main world, grab the sampo, and bring it to the mountain altar.
-    Peaceful is to get all 33 orbs in main + parallel, grab the sampo, and bring it to the mountain altar.
-    Orbs will be added to the randomizer pool according to what victory condition you chose.
+    Pure is to get 11 orbs, grab the sampo, and bring it to the mountain altar.
+    Peaceful is to get all 33 orbs, grab the sampo, and bring it to the mountain altar.
+    Orbs will be added to the randomizer pool based on which victory condition you chose.
     The base game orbs will not count towards these victory conditions."""
     display_name = "Victory Condition"
     option_greed_ending = 0
@@ -80,7 +85,8 @@ class VictoryCondition(Choice):
 
 
 class HintAmount(Range):
-    """Choose how many hints are placed on emerald tablets in your game"""
+    """Choose how many hints are placed on emerald tablets in your game.
+    Currently unimplemented."""
     display_name = "Hint Amount"
     range_start = 0
     range_end = 26

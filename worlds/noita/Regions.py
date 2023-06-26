@@ -11,36 +11,26 @@ def add_location(player: int, loc_name: str, loc_id: int, region: Region) -> Non
 
 
 def add_locations(multiworld: MultiWorld, player: int, region: Region) -> None:
-    locations = Locations.location_region_mapping.get(region.name, {})
+    region_names = Locations.full_location_region_mapping.get(region.name, {})
     opt_orbs = multiworld.orbs_as_checks[player].value
     opt_bosses = multiworld.bosses_as_checks[player].value
     opt_paths = multiworld.path_option[player].value
     opt_num_chests = multiworld.hidden_chests[player].value
     opt_num_pedestals = multiworld.pedestal_checks[player].value
-    for location_name, location_data in locations.items():
+    for location_name, location_data in region_names.items():
         location_type = location_data.ltype
         flag = location_data.flag
+        is_shop_allowed = location_type == "shop" and flag <= opt_paths
         is_orb_allowed = location_type == "orb" and flag <= opt_orbs
         is_boss_allowed = location_type == "boss" and flag <= opt_bosses
-        if flag == Locations.LocationFlag.none or is_orb_allowed or is_boss_allowed:
+        if is_shop_allowed or is_orb_allowed or is_boss_allowed:
             add_location(player, location_name, location_data.id, region)
-            if opt_paths == 4 and location_data.pw:
-                add_location(player, f"West {location_name}", location_data.id + 669, region)
-                add_location(player, f"East {location_name}", location_data.id + 669 * 2, region)
         elif location_type == "chest" and flag <= opt_paths:
             for i in range(opt_num_chests):
                 add_location(player, f"{location_name} {i+1}", location_data.id + i, region)
-            if opt_paths == 4:
-                for i in range(opt_num_chests):
-                    add_location(player, f"West {location_name} {i + 1}", location_data.id + i + 669, region)
-                    add_location(player, f"East {location_name} {i + 1}", location_data.id + i + 669 * 2, region)
         elif location_type == "pedestal" and flag <= opt_paths:
             for i in range(opt_num_pedestals):
                 add_location(player, f"{location_name} {i+1}", location_data.id + i, region)
-            if opt_paths == 4:
-                for i in range(opt_num_chests):
-                    add_location(player, f"West {location_name} {i + 1}", location_data.id + i + 669, region)
-                    add_location(player, f"East {location_name} {i + 1}", location_data.id + i + 669 * 2, region)
 
 
 # Creates a new Region with the locations found in `location_region_mapping` and adds them to the world.
@@ -153,6 +143,10 @@ noita_connections: Dict[str, Set[str]] = {
     ###
 }
 
+noita_pw_connections: Dict[str, Set[str]] = {
+    "The Laboratory": {"West Forest", "East Forest"},
+}
+
 
 def prefix_vals(prefix, values):
     return set(prefix + cxn_name for cxn_name in values)
@@ -166,5 +160,6 @@ west_cxns: Dict[str, Set[str]] = {f"West {region_name}": prefix_vals("West ", cx
 noita_main_world_regions: Set[str] = set(noita_connections.keys()).union(*noita_connections.values())
 noita_east_regions: Set[str] = set(east_cxns.keys()).union(*east_cxns.values())
 noita_west_regions: Set[str] = set(west_cxns.keys()).union(*west_cxns.values())
+noita_pw_connector: Set[str] = set(noita_pw_connections.keys()).union(*noita_pw_connections.values())
 
-noita_regions: Set[str] = noita_main_world_regions.union(noita_east_regions, noita_west_regions)
+noita_regions: Set[str] = noita_main_world_regions.union(noita_east_regions, noita_west_regions, noita_pw_connector)
