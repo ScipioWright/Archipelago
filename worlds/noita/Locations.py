@@ -123,10 +123,10 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
     #     "Collapsed Mines Pedestal": LocationData(110106, LocationFlag.main_path, "pedestal"),
     # },
     "Ancient Laboratory": {
-        "Ylialkemisti": LocationData(110656, LocationFlag.side_path, "boss"),
+        "Ylialkemisti": LocationData(110656, LocationFlag.side_path, "boss", False),
     },
     "Abyss Orb Room": {
-        "Sauvojen Tuntija": LocationData(110650, LocationFlag.side_path, "boss"),
+        "Sauvojen Tuntija": LocationData(110650, LocationFlag.side_path, "boss", False),
         "Abyss Orb":        LocationData(110665, LocationFlag.main_path, "orb"),
     },
     "Below Lava Lake": {
@@ -152,7 +152,7 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Hiisi Base Pedestal": LocationData(110266, LocationFlag.main_path, "pedestal"),
     },
     "Underground Jungle": {
-        "Suomuhauki":                  LocationData(110648, LocationFlag.main_path, "boss"),
+        "Suomuhauki":                  LocationData(110648, LocationFlag.main_path, "boss", False),
         "Underground Jungle Chest":    LocationData(110286, LocationFlag.main_path, "chest"),
         "Underground Jungle Pedestal": LocationData(110306, LocationFlag.main_path, "pedestal"),
     },
@@ -166,7 +166,7 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "The Vault Pedestal": LocationData(110386, LocationFlag.main_path, "pedestal"),
     },
     "Temple of the Art": {
-        "Gate Guardian":              LocationData(110652, LocationFlag.main_path, "boss"),
+        "Gate Guardian":              LocationData(110652, LocationFlag.main_path, "boss", False),
         "Temple of the Art Chest":    LocationData(110406, LocationFlag.main_path, "chest"),
         "Temple of the Art Pedestal": LocationData(110426, LocationFlag.main_path, "pedestal"),
     },
@@ -175,18 +175,18 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "The Tower Pedestal": LocationData(110626, LocationFlag.main_world, "pedestal"),
     },
     "Wizards' Den": {
-        "Mestarien Mestari":     LocationData(110655, LocationFlag.main_world, "boss"),
+        "Mestarien Mestari":     LocationData(110655, LocationFlag.main_world, "boss", False),
         "Wizards' Den Orb":      LocationData(110668, LocationFlag.main_world, "orb"),
         "Wizards' Den Chest":    LocationData(110446, LocationFlag.main_world, "chest"),
         "Wizards' Den Pedestal": LocationData(110466, LocationFlag.main_world, "pedestal"),
     },
     "Powerplant": {
-        "Kolmisilmän silmä":    LocationData(110657, LocationFlag.main_world, "boss"),
+        "Kolmisilmän silmä":    LocationData(110657, LocationFlag.main_world, "boss", False),
         "Power Plant Chest":    LocationData(110486, LocationFlag.main_world, "chest"),
         "Power Plant Pedestal": LocationData(110506, LocationFlag.main_world, "pedestal"),
     },
     "Snow Chasm": {
-        "Unohdettu":      LocationData(110653, LocationFlag.main_world, "boss"),
+        "Unohdettu":      LocationData(110653, LocationFlag.main_world, "boss", False),
         "Snow Chasm Orb": LocationData(110667, LocationFlag.main_world, "orb"),
     },
     "Deep Underground": {
@@ -196,7 +196,7 @@ location_region_mapping: Dict[str, Dict[str, LocationData]] = {
         "Kolmisilmä": LocationData(110646, LocationFlag.main_path, "boss", False),
     },
     "Friend Cave": {
-        "Toveri": LocationData(110654, LocationFlag.main_world, "boss"),
+        "Toveri": LocationData(110654, LocationFlag.main_world, "boss", False),
     },
     "The Work (Hell)": {
         "The Work (Hell) Orb": LocationData(110666, LocationFlag.main_world, "orb"),
@@ -209,22 +209,6 @@ def generate_location_entries(locname: str, locinfo: LocationData) -> Dict[str, 
     if locinfo.ltype in ["chest", "pedestal"]:
         return {f"{locname} {i + 1}": locinfo.id + i for i in range(20)}
     return {locname: locinfo.id}
-
-
-# TODO: PW locations get placed in their main-world regions
-# Creates parallel world locations for locations not marked as non-existing
-# def generate_pw_locations(locname: str, locinfo: LocationData) -> Dict[str, int]:
-#     pw_locations = {}
-#     if locinfo.pw:
-#         if locinfo.ltype in ["chest", "pedestal"]:
-#             for i in range(10):
-#                 pw_locations[f"West {locname} {i + 1}"] = locinfo.id + i + 669
-#                 pw_locations[f"East {locname} {i + 1}"] = locinfo.id + i + 669 * 2
-#         else:
-#             pw_locations[f"West {locname}"] = locinfo.id + 669
-#             pw_locations[f"East {locname}"] = locinfo.id + 669 * 2
-#
-#     return pw_locations
 
 
 full_location_region_mapping = deepcopy(location_region_mapping)

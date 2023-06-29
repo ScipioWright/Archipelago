@@ -56,6 +56,12 @@ def create_connections(player: int, regions: Dict[str, Region]) -> None:
     for source, destinations in noita_connections.items():
         new_entrances = [create_entrance(player, source, destination, regions) for destination in destinations]
         regions[source].exits = new_entrances
+    for source, destinations in east_cxns.items():
+        new_entrances = [create_entrance(player, source, destination, regions) for destination in destinations]
+        regions[source].exits = new_entrances
+    for source, destinations in west_cxns.items():
+        new_entrances = [create_entrance(player, source, destination, regions) for destination in destinations]
+        regions[source].exits = new_entrances
 
 
 # Creates all regions and connections. Called from NoitaWorld.
@@ -119,7 +125,7 @@ noita_connections: Dict[str, Set[str]] = {
                            "Lukki Lair"},
     "Dragoncave": {"Underground Jungle"},
     "Lukki Lair": {"Underground Jungle", "Snow Chasm", "Frozen Vault"},
-    # "Snow Chasm": {},
+    "Snow Chasm": {},
 
     ###
     "Vault Holy Mountain": {"The Vault"},
@@ -132,19 +138,15 @@ noita_connections: Dict[str, Set[str]] = {
     "Wizards' Den": {"Temple of the Art", "Powerplant"},
     "Powerplant": {"Wizards' Den", "Deep Underground"},
     "The Tower": {"Forest"},
-    # "Deep Underground": {},
+    "Deep Underground": {},
 
     ###
     "Laboratory Holy Mountain": {"The Laboratory"},
-    "The Laboratory": {"Laboratory Holy Mountain", "The Work", "Friend Cave", "The Work (Hell)", "Lake"},
-    # "Friend Cave": {},
-    # "The Work": {},
-    # "The Work (Hell)": {},
+    "The Laboratory": {"Laboratory Holy Mountain", "The Work", "Friend Cave", "The Work (Hell)", "Lake", "East Forest", "West Forest"},
+    "Friend Cave": {},
+    "The Work": {},
+    "The Work (Hell)": {},
     ###
-}
-
-noita_pw_connections: Dict[str, Set[str]] = {
-    "The Laboratory": {"West Forest", "East Forest"},
 }
 
 
@@ -160,6 +162,5 @@ west_cxns: Dict[str, Set[str]] = {f"West {region_name}": prefix_vals("West ", cx
 noita_main_world_regions: Set[str] = set(noita_connections.keys()).union(*noita_connections.values())
 noita_east_regions: Set[str] = set(east_cxns.keys()).union(*east_cxns.values())
 noita_west_regions: Set[str] = set(west_cxns.keys()).union(*west_cxns.values())
-noita_pw_connector: Set[str] = set(noita_pw_connections.keys()).union(*noita_pw_connections.values())
 
-noita_regions: Set[str] = noita_main_world_regions.union(noita_east_regions, noita_west_regions, noita_pw_connector)
+noita_regions: Set[str] = noita_main_world_regions.union(noita_east_regions, noita_west_regions)
