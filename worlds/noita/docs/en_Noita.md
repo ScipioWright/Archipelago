@@ -22,9 +22,9 @@ The Archipelago implementation maintains the same goals. While creating your YAM
 While the sampo's location is not randomized, orbs are added to the randomizer pool based on the number of orbs
 required for your goal.
 
-Starting a fresh run after death will re-deliver *some* previously delivered items. The standard wand and potion pools
-are unaffected by the multiworld item pools. This will not present an issue with progression, and will make
-progression easier as the multiworld progresses.
+Starting a fresh run after death will re-deliver *some* previously delivered items. These re-delivered items will be placed within the entrance cave leading to the Mines.
+The standard wand and potion pools are unaffected by the multiworld item pools.
+This will not present an issue with progression, and will make progression easier as the multiworld progresses.
 
 ## What Noita items can appear in other players' worlds?
 
