@@ -3,7 +3,7 @@ from collections import Counter
 from typing import Dict, List, NamedTuple, Set
 
 from BaseClasses import Item, ItemClassification, MultiWorld
-from .Options import BossesAsChecks, PathOption, VictoryCondition
+from .Options import BossesAsChecks, PathOption, VictoryCondition, ExtraOrbs
 
 
 class ItemData(NamedTuple):
@@ -27,12 +27,14 @@ def create_fixed_item_pool() -> List[str]:
     return list(Counter(required_items).elements())
 
 
-def create_orb_items(victory_condition: VictoryCondition) -> List[str]:
+def create_orb_items(victory_condition: VictoryCondition, extra_orbs: ExtraOrbs) -> List[str]:
     orb_count = 0
+    if victory_condition ~= VictoryCondition.option_greed_ending:
+        orb_count = extra_orbs.value
     if victory_condition == VictoryCondition.option_pure_ending:
-        orb_count = 11
+        orb_count = orb_count + 11
     elif victory_condition == VictoryCondition.option_peaceful_ending:
-        orb_count = 33
+        orb_count = orb_count + 33
     return ["Orb" for _ in range(orb_count)]
 
 
