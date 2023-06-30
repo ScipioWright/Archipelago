@@ -80,47 +80,6 @@ def get_useful_hint_items():
     ]
 
 
-joke_hints = [
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke 5",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-    "joke hint sample",
-    "joke hint sample 2",
-    "joke 3",
-    "jok3 4",
-]
-
-
 def make_hint_from_item(multiworld: MultiWorld, player: int, item: str):
     location_obj = multiworld.find_item(item, player).item.location
     location_name = location_obj.name
@@ -209,15 +168,7 @@ def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
 
     multiworld.per_slot_randoms[player].shuffle(locations_in_this_world)
 
-    if hint_amount < 13:
-        # if you have less than 13 hints set, add some joke hints and then up the hint_amount so the while works
-        hints.extend(generate_joke_hints(multiworld, player, 13 - hint_amount))
-        hint_amount = 13
-
     while len(hints) < hint_amount:
-        if len(hints) == 13:
-            # we want the unforged tablets to have the good hints, but not necessarily starting with our items
-            shuffle(hints)
         if useful_pairs:
             loc = multiworld.per_slot_randoms[player].choice(list(useful_pairs.keys()))
             item = useful_pairs[loc]
@@ -227,7 +178,7 @@ def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
             continue
 
         if len(locations_in_this_world) == 0:
-            hints.extend(generate_joke_hints(multiworld, player, hint_amount - len(hints)))
+            hint_amount = 0
             continue
 
         location = locations_in_this_world.pop()
@@ -236,19 +187,11 @@ def make_hints(multiworld: MultiWorld, player: int, hint_amount: int):
             hint = make_hint_from_location(multiworld, player, location)
             hints.append(f"Your {hint[0]} holds {hint[1]}.")
 
-    if hint_amount == 13:
-        shuffle(hints)
-
-    hints.extend(generate_joke_hints(multiworld, player, 26 - hint_amount))
     for item in hints:
         print(item)
     numbered_hints = dict(zip(range(len(hints)), hints))
 
     return numbered_hints
-
-
-def generate_joke_hints(multiworld: MultiWorld, player: int, amount: int):
-    return [x for x in multiworld.per_slot_randoms[player].sample(joke_hints, amount)]
 
 
 def create_all_hints(multiworld: MultiWorld, player: int):
