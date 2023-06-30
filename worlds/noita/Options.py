@@ -93,6 +93,17 @@ class HintAmount(Range):
     default = 13
 
 
+class ExtraOrbs(Range):
+    """Add extra orbs to your item pool, to prevent you from needing to wait as long
+    for the last orb you need for your victory condition.
+    Extra orbs received past your victory condition's amount will be received as hearts instead.
+    Does not affect the Greed victory condition."""
+    display_name = "Extra Orbs"
+    range_start = 0
+    range_end = 10
+    default = 0
+
+
 noita_options: Dict[str, AssembleOptions] = {
     "death_link": DeathLink,
     "bad_effects": Traps,
@@ -102,5 +113,6 @@ noita_options: Dict[str, AssembleOptions] = {
     "pedestal_checks": PedestalChecks,
     "orbs_as_checks": OrbsAsChecks,
     "bosses_as_checks": BossesAsChecks,
+    "extra_orbs": ExtraOrbs,
     "hint_amount": HintAmount
 }
