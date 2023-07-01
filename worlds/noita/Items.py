@@ -29,7 +29,7 @@ def create_fixed_item_pool() -> List[str]:
 
 def create_orb_items(victory_condition: VictoryCondition, extra_orbs: ExtraOrbs) -> List[str]:
     orb_count = 0
-    if victory_condition ~= VictoryCondition.option_greed_ending:
+    if victory_condition != VictoryCondition.option_greed_ending:
         orb_count = extra_orbs.value
     if victory_condition == VictoryCondition.option_pure_ending:
         orb_count = orb_count + 11
@@ -67,7 +67,7 @@ def create_all_items(multiworld: MultiWorld, player: int) -> None:
 
     itempool = (
         create_fixed_item_pool()
-        + create_orb_items(multiworld.victory_condition[player])
+        + create_orb_items(multiworld.victory_condition[player], multiworld.extra_orbs[player])
         + create_spatial_awareness_item(multiworld.bosses_as_checks[player])
         + create_kantele(multiworld.victory_condition[player])
         + create_pw_wand(multiworld.path_option[player])

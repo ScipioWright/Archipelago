@@ -2,7 +2,7 @@ from typing import List, NamedTuple, Set
 
 from BaseClasses import CollectionState, MultiWorld
 from . import Items, Locations
-from .Options import BossesAsChecks, VictoryCondition
+from .Options import BossesAsChecks, VictoryCondition, PathOption
 from worlds.generic import Rules as GenericRules
 
 
@@ -126,6 +126,18 @@ def holy_mountain_unlock_conditions(multiworld: MultiWorld, player: int) -> None
             )
 
 
+def biome_unlock_conditions(multiworld: MultiWorld, player: int):
+    lukki_entrances = multiworld.get_region("Lukki Lair", player).entrances
+    magical_entrances = multiworld.get_region("Magical Temple", player).entrances
+    wizard_entrances = multiworld.get_region("Wizards' Den", player).entrances
+    for entrance in lukki_entrances:
+        entrance.access_rule = lambda state: state.has("Melee Immunity Perk" and "All-Seeing Eye Perk", player)
+    for entrance in magical_entrances:
+        entrance.access_rule = lambda state: state.has("All-Seeing Eye Perk", player)
+    for entrance in wizard_entrances:
+        entrance.access_rule = lambda state: state.has("All-Seeing Eye Perk", player)
+
+
 def victory_unlock_conditions(multiworld: MultiWorld, player: int) -> None:
     victory_condition = multiworld.victory_condition[player].value
     victory_location = multiworld.get_location("Victory", player)
@@ -142,10 +154,11 @@ def victory_unlock_conditions(multiworld: MultiWorld, player: int) -> None:
 
 
 def create_all_rules(multiworld: MultiWorld, player: int) -> None:
-    ban_items_from_shops(multiworld, player)
+    # ban_items_from_shops(multiworld, player)
     ban_early_high_tier_wands(multiworld, player)
     lock_holy_mountains_into_spheres(multiworld, player)
     holy_mountain_unlock_conditions(multiworld, player)
+    biome_unlock_conditions(multiworld, player)
     victory_unlock_conditions(multiworld, player)
 
     # Prevent the Map perk (used to find Toveri) from being on Toveri (boss)

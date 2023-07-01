@@ -86,7 +86,7 @@ class VictoryCondition(Choice):
 
 class HintAmount(Range):
     """Choose how many hints are placed on emerald tablets in your game.
-    Currently unimplemented."""
+    Taking less than 26 will replace the tablet text with joke hints instead."""
     display_name = "Hint Amount"
     range_start = 0
     range_end = 26
