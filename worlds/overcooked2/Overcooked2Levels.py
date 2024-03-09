@@ -348,6 +348,7 @@ level_id_to_shortname = {
     (Overcooked2Dlc.SEASONAL                  , 31 ): "Moon 1-5"      ,
 }
 
+
 class OverworldRegion(IntEnum):
     main = 0
     yellow_island = 1
@@ -359,6 +360,7 @@ class OverworldRegion(IntEnum):
     dark_green_mountain = 7
     kevin_eight_island = 8
     out_of_bounds = 9
+
 
 overworld_region_by_level = {
     "1-1": OverworldRegion.main,

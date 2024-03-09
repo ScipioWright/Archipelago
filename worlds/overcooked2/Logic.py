@@ -1,7 +1,9 @@
 from BaseClasses import CollectionState
-from .Overcooked2Levels import Overcooked2GenericLevel, Overcooked2Dlc, Overcooked2Level, OverworldRegion, overworld_region_by_level
+from .Overcooked2Levels import Overcooked2GenericLevel, Overcooked2Dlc, Overcooked2Level, OverworldRegion, \
+    overworld_region_by_level
 from typing import Dict, Set
 from random import Random
+
 
 def has_requirements_for_level_access(state: CollectionState, level_name: str, previous_level_completed_event_name: str,
                                       required_star_count: int, allow_ramp_tricks: bool, player: int) -> bool:

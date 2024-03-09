@@ -1,14 +1,16 @@
 from enum import IntEnum
 from typing import Any, List, Dict, Set, Callable, Optional, TextIO
 
-from BaseClasses import ItemClassification, CollectionState, Region, Entrance, Location, Tutorial, LocationProgressType
+from BaseClasses import ItemClassification, CollectionState, Region, Location, Tutorial, LocationProgressType
 from worlds.AutoWorld import World, WebWorld
 
 from .Overcooked2Levels import Overcooked2Dlc, Overcooked2Level, Overcooked2GenericLevel
 from .Locations import Overcooked2Location, oc2_location_name_to_id, oc2_location_id_to_name
 from .Options import OC2Options, OC2OnToggle, LocationBalancingMode, DeathLinkMode
-from .Items import item_table, Overcooked2Item, item_name_to_id, item_id_to_name, item_to_unlock_event, item_frequencies, dlc_exclusives
-from .Logic import has_requirements_for_level_star, has_requirements_for_level_access, level_shuffle_factory, is_item_progression, is_useful
+from .Items import item_table, Overcooked2Item, item_name_to_id, item_id_to_name, item_to_unlock_event, \
+    item_frequencies, dlc_exclusives
+from .Logic import has_requirements_for_level_star, has_requirements_for_level_access, level_shuffle_factory, \
+    is_item_progression, is_useful
 
 
 class Overcooked2Web(WebWorld):
@@ -47,7 +49,7 @@ class Overcooked2World(World):
     game = "Overcooked! 2"
     web = Overcooked2Web()
     required_client_version = (0, 3, 8)
-    topology_present: bool = False
+    topology_present = False
     data_version = 3
 
     item_name_to_id = item_name_to_id
@@ -59,6 +61,7 @@ class Overcooked2World(World):
     options_dataclass = OC2Options
     options: OC2Options
     itempool: List[Overcooked2Item]
+    star_threshold_scale: int
 
     # Helper Functions
 
@@ -96,7 +99,7 @@ class Overcooked2World(World):
         self,
         region_name: str,
         location_name: str,
-        level_id: int,
+        level_id: Optional[int],
         stars: int,
         is_event: bool = False,
         priority=False,
@@ -256,7 +259,6 @@ class Overcooked2World(World):
                 location: Location = self.multiworld.get_location(level.location_name_item, self.player)
                 location.progress_type = LocationProgressType.PRIORITY
 
-
     def create_regions(self) -> None:
         # Menu -> Overworld
         self.add_region("Menu")
@@ -333,7 +335,6 @@ class Overcooked2World(World):
         completion_condition: Callable[[CollectionState], bool] = lambda state: \
             state.has("Victory", self.player)
         self.multiworld.completion_condition[self.player] = completion_condition
-
 
     def create_items(self):
         self.itempool = []
@@ -465,7 +466,7 @@ class Overcooked2World(World):
             31,  # 6-1
         ]
         for level_id in range(1, 37):
-            if (level_id not in level_force_reveal):
+            if level_id not in level_force_reveal:
                 level_unlock_requirements[str(level_id)] = level_id - 1
 
         # Set Kevin Unlock Requirements

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import TypedDict
 from Options import DefaultOnToggle, PerGameCommonOptions, Toggle, Range, Choice, OptionSet
 from .Overcooked2Levels import Overcooked2Dlc
+
 
 class LocationBalancingMode(IntEnum):
     disabled = 0
@@ -29,13 +29,16 @@ class OC2Toggle(Toggle):
 
 
 class LocationBalancing(Choice):
-    """Location balancing affects the density of progression items found in your world relative to other worlds. This setting changes nothing for solo games.
+    """Location balancing affects the density of progression items found in your world relative to other worlds.
+    This setting changes nothing for solo games.
 
-    - Disabled: Location density in your world can fluctuate greatly depending on the settings of other players. In extreme cases, your world may be entirely populated with filler items
+    - Disabled: Location density in your world can fluctuate greatly depending on the settings of other players.
+    In extreme cases, your world may be entirely populated with filler items
 
     - Compromise: Locations are balanced to a midpoint between "fair" and "natural"
 
-    - Full: Locations are balanced in an attempt to make the number of progression items sent out and received equal over the entire game"""
+    - Full: Locations are balanced in an attempt to make the number of progression items sent out
+    and received equal over the entire game"""
     auto_display_name = True
     display_name = "Location Balancing"
     option_disabled = LocationBalancingMode.disabled.value
@@ -43,19 +46,24 @@ class LocationBalancing(Choice):
     option_full = LocationBalancingMode.full.value
     default = LocationBalancingMode.compromise.value
 
+
 class RampTricks(OC2Toggle):
-    """If enabled, generated games may require sequence breaks on the overworld map. This includes crossing small gaps and escaping out of bounds."""
+    """If enabled, generated games may require sequence breaks on the overworld map.
+    This includes crossing small gaps and escaping out of bounds."""
     display_name = "Overworld Tricks"
     
 
 class DeathLink(Choice):
-    """DeathLink is an opt-in feature for Multiworlds where individual death events are propagated to all games with DeathLink enabled.
+    """DeathLink is an opt-in feature for Multiworlds where individual death events are propagated
+    to all games with DeathLink enabled.
 
     - Disabled: Death will behave as it does in the original game.
 
-    - Death Only: A DeathLink broadcast will be sent every time a chef falls into a stage hazard. All local chefs will be killed when any one perishes.
+    - Death Only: A DeathLink broadcast will be sent every time a chef falls into a stage hazard.
+    All local chefs will be killed when any one perishes.
 
-    - Death and Overcook: Same as above, but an additional broadcast will be sent whenever the kitchen catches on fire from burnt food.
+    - Death and Overcook: Same as above, but an additional broadcast will be sent whenever the kitchen
+    catches on fire from burnt food.
     """
     auto_display_name = True
     display_name = "DeathLink"
