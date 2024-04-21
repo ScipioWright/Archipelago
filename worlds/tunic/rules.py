@@ -130,7 +130,7 @@ def set_region_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) -> No
         lambda state: (state.has(gold_hexagon, player, options.hexagon_goal.value) if options.hexagon_quest.value
                        else state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)) and \
         has_ability(state, player, prayer, options, ability_unlocks) and has_sword(state, player) and \
-        state.has_any({lantern, laurels}, player)
+        state.has_any({lantern, laurels}, player) and state.has_group("hero relics", player, 6)
 
 
 def set_location_rules(world: "TunicWorld", ability_unlocks: Dict[str, int]) -> None:

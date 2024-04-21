@@ -75,8 +75,7 @@ class TunicWorld(World):
                 self.options.shuffle_ladders.value = passthrough["shuffle_ladders"]
 
     def create_item(self, name: str) -> TunicItem:
-        item_data = item_table[name]
-        return TunicItem(name, item_data.classification, self.item_name_to_id[name], self.player)
+        return TunicItem(name, item_table[name].classification, self.item_name_to_id[name], self.player)
 
     def create_items(self) -> None:
         keys_behind_bosses = self.options.keys_behind_bosses
@@ -160,6 +159,14 @@ class TunicWorld(World):
                 items_to_create[replaced_item] = 0
 
             remove_filler(items_to_create[gold_hexagon])
+        else:
+            for item_name, item_data in item_table.items():
+                if item_name in self.item_name_groups["hero relics"]:
+                    relic_item = TunicItem(item_name, ItemClassification.progression, self.item_name_to_id[item_name], self.player)
+                    if item_name.endswith("ATT"):
+                        relic_item.classification = relic_item.classification | ItemClassification.useful
+                    tunic_items.append(relic_item)
+                    items_to_create[item_name] = 0
 
         if self.options.maskless:
             mask_item = TunicItem("Scavenger Mask", ItemClassification.useful, self.item_name_to_id["Scavenger Mask"], self.player)
