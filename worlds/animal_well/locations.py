@@ -10,12 +10,14 @@ class ByteSect(IntEnum):
     candles = 4
     house_key = 5
 
+
 class AWTracker(NamedTuple):
     tile: int
     stamp: int = 0
     stamp_x: int = 0
     stamp_y: int = 0
     index: int = 0
+
 
 class AWLocationData(NamedTuple):
     offset: int  # location ID offset

@@ -9,7 +9,7 @@ import platform
 import random
 import traceback
 
-from typing import Dict, List
+from typing import Dict
 
 import pymem
 
@@ -243,6 +243,7 @@ class AnimalWellContext(CommonContext):
             self.display_text_in_client("Connected to the AP server!")
             for option_name, option_value in self.slot_data.items():
                 self.logic_tracker.player_options[option_name] = option_value
+            self.logic_tracker.clear_inventories()
             for location_id in args.get("checked_locations"):
                 location_name = self.location_names.lookup_in_slot(location_id)
                 self.logic_tracker.check_logic_status[location_name] = CheckStatus.checked.value
@@ -314,13 +315,16 @@ class AnimalWellContext(CommonContext):
                             self.logic_tracker.upgraded_b_wand = True
                         else:
                             self.logic_tracker.full_inventory.add(item_name)
+                            self.logic_tracker.out_of_logic_full_inventory.add(item_name)
                     elif item_name in item_name_groups["Eggs"]:
                         if item_name == iname.egg_65.value:
                             self.logic_tracker.full_inventory.add(item_name)
+                            self.logic_tracker.out_of_logic_full_inventory.add(item_name)
                         else:
                             self.logic_tracker.egg_tracker.add(item_name)
                     else:
                         self.logic_tracker.full_inventory.add(item_name)
+                        self.logic_tracker.out_of_logic_full_inventory.add(item_name)
                 self.logic_tracker.update_checks_and_regions()
 
             elif cmd == "RoomUpdate":
@@ -507,6 +511,9 @@ class AWLocations:
             for loc_name, status in self.loc_statuses.items():
                 if status:
                     ctx.locations_checked.add(location_name_to_id[loc_name])
+                    if location_table[loc_name].byte_section == ByteSect.candles:
+                        ctx.logic_tracker.full_inventory.add(loc_name)
+                        ctx.logic_tracker.out_of_logic_full_inventory.add(loc_name)
 
             if ctx.slot_data.get("goal", None) == Goal.option_fireworks:
                 if not ctx.finished_game and self.loc_statuses[lname.key_house]:
